@@ -1,14 +1,8 @@
 [
   {
     "id": 1,
-    "date": "2024-09-30",
-    "description": "Dinner",
-    "amount": 150.0
-  },
-  {
-    "id": 2,
-    "date": "2024-09-30",
+    "date": "2024-10-02",
     "description": "Games",
-    "amount": 250.0
+    "amount": 350.0
   }
 ]

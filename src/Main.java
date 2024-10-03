@@ -5,6 +5,7 @@ import repository.ExpenseRepositoryImpl;
 import service.ExpenseService;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Scanner;
 
 
 public class Main {
@@ -14,8 +15,9 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
         ExpenseRepository expenseRepository = new ExpenseRepositoryImpl(Path.of(PATH));
-        ExpenseService expenseService = new ExpenseService(expenseRepository);
+        ExpenseService expenseService = new ExpenseService(expenseRepository, scanner);
 
 
         if (args.length == NO_ARGS) {
@@ -31,6 +33,7 @@ public class Main {
             CommandLine cmd = parser.parse(options, args);
             String description = null;
             Double amount = null;
+            int id;
 
             for (Option option : cmd.getOptions()) {
                 switch (option.getOpt()) {
@@ -49,12 +52,11 @@ public class Main {
                         System.out.println("Amount: " + amount);
                         break;
                     case "l":
-                        System.out.printf("%-4s %-12s %-15s %-10s%n", "ID", "Date", "Description", "Amount");
-                        System.out.println("-----------------------------------------------");
+                        printMenu();
                         expenseService.expenseList();
                         break;
                     case "del":
-                        int id = Integer.parseInt(cmd.getOptionValue("del"));
+                        id = Integer.parseInt(cmd.getOptionValue("del"));
                         expenseService.deleteExpense(id);
                         break;
                     case "s":
@@ -63,6 +65,10 @@ public class Main {
                         break;
                     case "v":
                         System.out.println("Verbose output enabled");
+                        break;
+                    case "u":
+                        id = Integer.parseInt(cmd.getOptionValue("u"));
+                        expenseService.updateExpense(id);
                         break;
                     default:
                         System.out.println("Unknown option: " + option.getOpt());
@@ -81,5 +87,10 @@ public class Main {
         }
 
         expenseService.saveExpense();
+    }
+
+    private static void printMenu(){
+        System.out.printf("%-4s %-12s %-15s %-10s%n", "ID", "Date", "Description", "Amount");
+        System.out.println("-----------------------------------------------");
     }
 }

@@ -62,6 +62,6 @@ public class Expense implements Comparable<Expense>{
 
     @Override
     public int compareTo(Expense o) {
-        return 0;
+        return Integer.compare(this.id, o.id);
     }
 }
