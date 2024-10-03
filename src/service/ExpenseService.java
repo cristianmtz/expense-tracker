@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class ExpenseService {
 
@@ -15,9 +16,12 @@ public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
 
-    public ExpenseService(ExpenseRepository expenseRepository) throws IOException {
+    private final Scanner scanner;
+
+    public ExpenseService(ExpenseRepository expenseRepository, Scanner scanner) throws IOException {
         this.expenseRepository = expenseRepository;
         this.expenses = expenseRepository.loadExpenses();
+        this.scanner = scanner;
     }
 
     public void addExpense(String description, Double amount){
@@ -41,6 +45,27 @@ public class ExpenseService {
         }
 
         System.out.println("Expense deleted successfully");
+    }
+
+
+    public void updateExpense(int id){
+
+        System.out.println("Please enter a description:");
+        String description = scanner.nextLine();
+        System.out.println("Please enter an amount:");
+        double amount = Double.parseDouble(scanner.nextLine());
+
+        Expense expenseToUpdate = expenses.stream()
+                .filter(expense -> expense.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Expense not found"));
+
+        // Actualizar los campos del gasto existente
+        expenseToUpdate.setDescription(description); // Asegúrate de tener este método en tu clase Expense
+        expenseToUpdate.setAmount(amount);
+
+        System.out.println("Expense updated correctly");
+
     }
 
     public void expenseList(){

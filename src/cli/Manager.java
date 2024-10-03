@@ -13,6 +13,7 @@ public class Manager {
         options.addOption(createOption("a", "amount", true, "amount of the item"));
         options.addOption(createOption("l", "list", false, "List of expenses"));
         options.addOption(createOption("del", "delete", true, "delete expense by id"));
+        options.addOption(createOption("u", "update", true, "update"));
         options.addOption(createOption("s", "summary", true, "expenses summary"));
         options.addOption(createOption("v", "verbose", false, "verbose output"));
 
